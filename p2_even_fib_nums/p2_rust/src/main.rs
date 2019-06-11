@@ -4,48 +4,23 @@
 // By considering the terms in the Fibonacci sequence whose values do not exceed four million, 
 // find the sum of the even-valued terms.
 
-
-// PLAN - well I wanted to use this but I don't get it - https://docs.rs/itertools/0.5.10/itertools/fn.unfold.html
-// so...write own function to build up fib seq in a for 1..4million loop
-
-fn get_fib_evens_sum1(upper_bound: usize) -> usize {
+fn get_fib_evens_sum(upper_bound: usize) -> usize {
     let mut fibs: Vec<usize> = vec![1,1];  // initialize vec w/ first two elements as '1' for fib
-    println!("length of vector: {}", fibs.len());
-    println!("element 0 of vector: {}", &fibs[0]);
-    println!("element 1 of vector: {}", &fibs[1]);
-    //println!("element 2 of vector: {}", &fibs[2]); PANIC (makes sense)
-
     let mut sum: usize = 0;
-    let mut x: usize = 2;
-    loop {
-        fibs.push(fibs[x-1] + fibs[x-2]);
-        //break if {&fibs[x] >= upper_bound};
-        if &fibs[x] >= &upper_bound {
-            break;
-        } 
+    let mut x: usize = 1;
+
+    while &fibs[x] <= &upper_bound {
+        x = x + 1;
+        fibs.push(fibs[x-1] + fibs[x-2]);  // add new element to end of vector
         
         if fibs[x] % 2 == 0 {
             sum = sum + fibs[x];
-        }
-        else { // IS THIS NECESSARY? think this might have been an attempted compiler error fix...
-            sum = sum + 0;
-        }
-        
+        }        
         println!("x is {}, fibs[x] is {}, sum is: {}", &x, &fibs[x], &sum);
-        x = x + 1;
     }
     sum
 }
 fn main() {
     const LIMIT: usize = 4_000_000; 
-//    println!("{}", get_fib_evens_sum1(limit));
-//    result = get_fib_evens_sum1(limit);  // this throws "result not found in this scope"
-//    let result = get_fib_evens_sum1(LIMIT);    // this works
-    let result: usize = get_fib_evens_sum1(LIMIT); // also this
-    println!("result is {}", result)
-
+    println!("result is {}", get_fib_evens_sum(LIMIT));
 }
-
-// ? - "note: Run with `RUST_BACKTRACE=1` environment variable to display a backtrace."
-// ^ tried $ RUST_BACKTRACE=1 from shell (integrated terminal below) that I then ran `$ cargo run` on but didn't work...
-//   
