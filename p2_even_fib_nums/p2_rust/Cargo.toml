@@ -1,0 +1,7 @@
+[package]
+name = "p2_rust"
+version = "0.1.0"
+authors = ["Max Epstein <mepstein68@gmail.com>"]
+edition = "2018"
+
+[dependencies]
